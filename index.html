@@ -2,299 +2,547 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeNexus | Laboratório de Programação</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MalkLabs | Laboratório de Código Avançado</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Laboratório de código multi-linguagem com IA integrada. Desenvolvido por MalkDev0 - Jmfxp22">
+    <meta name="keywords" content="programação, código, laboratório, python, javascript, html, css, lua">
+    <meta name="author" content="MalkDev0 - Jmfxp22">
+    <meta property="og:title" content="MalkLabs - Laboratório de Código">
+    <meta property="og:description" content="Execute Python, JavaScript, HTML, CSS e Lua direto no navegador!">
+    <meta property="og:type" content="website">
+    
+    <!-- Styles & Fonts -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    <meta name="theme-color" content="#6366f1">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
-<body class="dark-theme">
-    <!-- Loading Screen SIMPLIFICADA -->
+<body>
+    <!-- Loading Screen Avançada -->
     <div id="loading">
-        <div class="loader">
-            <div class="logo">
-                <span class="bracket">{</span>
-                <span class="text">NEXUS</span>
-                <span class="bracket">}</span>
+        <div class="loading-container">
+            <!-- Logo Animada -->
+            <div class="logo-animation">
+                <div class="logo-circle">
+                    <div class="logo-inner">
+                        <span class="logo-m">M</span>
+                        <span class="logo-l">L</span>
+                    </div>
+                </div>
+                <div class="logo-text">
+                    <h1 class="logo-title">Malk<span class="logo-highlight">Labs</span></h1>
+                    <p class="logo-subtitle">Laboratório de Código Avançado</p>
+                </div>
             </div>
-            <p>Inicializando laboratório...</p>
-            <div class="progress">
-                <div class="progress-bar"></div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progress-percent">0%</span>
+                    <span id="progress-message">Inicializando núcleo...</span>
+                </div>
             </div>
-            <div class="loading-text" id="loading-text">Carregando...</div>
+            
+            <!-- Loading Steps -->
+            <div class="loading-steps">
+                <div class="step active" data-step="1">
+                    <i class="fas fa-microchip"></i>
+                    <span>Inicializando sistema</span>
+                </div>
+                <div class="step" data-step="2">
+                    <i class="fas fa-code"></i>
+                    <span>Carregando ambientes</span>
+                </div>
+                <div class="step" data-step="3">
+                    <i class="fas fa-brain"></i>
+                    <span>Ativando IA assistente</span>
+                </div>
+                <div class="step" data-step="4">
+                    <i class="fas fa-rocket"></i>
+                    <span>Pronto para decolar</span>
+                </div>
+            </div>
+            
+            <!-- Créditos -->
+            <div class="credits">
+                <p>Desenvolvido por <span class="dev-name">MalkDev0</span> • <span class="dev-alias">Jmfxp22</span></p>
+                <p class="version">v2.0.26 • Sistema Nexus</p>
+            </div>
         </div>
     </div>
 
-    <!-- Interface Principal (inicialmente escondida) -->
-    <div id="main-app" style="display: none;">
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <div class="logo-section">
-                <h1><i class="fas fa-code"></i> CodeNexus</h1>
-                <p class="subtitle">Laboratório Multi-Linguagem</p>
-            </div>
-
-            <div class="menu-section">
-                <h3><i class="fas fa-globe"></i> LINGUAGENS</h3>
-                <div class="lang-buttons">
-                    <button class="lang-btn active" data-lang="html">
-                        <i class="fab fa-html5"></i> HTML
-                    </button>
-                    <button class="lang-btn" data-lang="css">
-                        <i class="fab fa-css3-alt"></i> CSS
-                    </button>
-                    <button class="lang-btn" data-lang="js">
-                        <i class="fab fa-js"></i> JavaScript
-                    </button>
-                    <button class="lang-btn" data-lang="python">
-                        <i class="fab fa-python"></i> Python
-                    </button>
-                    <button class="lang-btn" data-lang="lua">
-                        <i class="fas fa-code"></i> Lua
-                    </button>
+    <!-- Main App -->
+    <div id="app" style="display: none;">
+        <!-- Header -->
+        <header class="app-header">
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="header-brand">
+                <div class="header-logo">
+                    <div class="logo-mini">
+                        <span class="logo-m">M</span>
+                        <span class="logo-l">L</span>
+                    </div>
+                    <h1>Malk<span class="logo-highlight">Labs</span></h1>
                 </div>
+                <p class="header-subtitle">Nexus Development System</p>
             </div>
-
-            <div class="menu-section">
-                <h3><i class="fas fa-cogs"></i> FERRAMENTAS</h3>
-                <button class="tool-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Executar
+            
+            <div class="header-actions">
+                <button class="action-btn" id="run-btn" title="Executar código">
+                    <i class="fas fa-play"></i>
+                    <span>Executar</span>
                 </button>
-                <button class="tool-btn" id="clear-btn">
-                    <i class="fas fa-trash"></i> Limpar
-                </button>
-                <button class="tool-btn" id="save-btn">
-                    <i class="fas fa-save"></i> Salvar
-                </button>
-                <button class="tool-btn" id="format-btn">
-                    <i class="fas fa-indent"></i> Formatar
+                <button class="action-btn" id="ai-btn" title="Assistente IA">
+                    <i class="fas fa-robot"></i>
                 </button>
             </div>
-
-            <div class="menu-section">
-                <h3><i class="fas fa-palette"></i> TEMA</h3>
-                <div class="theme-buttons">
-                    <button class="theme-btn active" data-theme="dark">
-                        <i class="fas fa-moon"></i> Escuro
-                    </button>
-                    <button class="theme-btn" data-theme="light">
-                        <i class="fas fa-sun"></i> Claro
-                    </button>
-                </div>
-            </div>
-
-            <div class="menu-section">
-                <h3><i class="fas fa-headset"></i> SUPORTE</h3>
-                <button class="support-btn" id="contact-btn">
-                    <i class="fab fa-discord"></i> Discord
-                </button>
-                <button class="support-btn" id="help-btn">
-                    <i class="fas fa-question-circle"></i> Ajuda
-                </button>
-            </div>
-
-            <div class="footer-section">
-                <p class="version">v1.0.0</p>
-                <p class="status" id="status-indicator">
-                    <i class="fas fa-circle online"></i> Online
-                </p>
-            </div>
-        </nav>
+        </header>
 
         <!-- Main Content -->
-        <main class="main-content">
-            <!-- Top Bar -->
-            <div class="top-bar">
-                <div class="file-info">
-                    <div class="file-name">
-                        <i class="fas fa-file-code"></i>
-                        <span>script.</span>
-                        <span id="current-ext">py</span>
-                    </div>
-                    <div class="lang-display" id="lang-display">
-                        <i class="fab fa-python"></i> Python
-                    </div>
-                </div>
-
-                <div class="controls">
-                    <button class="control-btn" id="console-btn">
-                        <i class="fas fa-terminal"></i> Console
-                    </button>
-                    <button class="control-btn" id="fullscreen-btn">
-                        <i class="fas fa-expand"></i> Tela Cheia
+        <main class="app-main">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h3><i class="fas fa-code"></i> Laboratórios</h3>
+                    <button class="close-sidebar" id="close-sidebar">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
-            </div>
+                
+                <div class="sidebar-content">
+                    <!-- Linguagens -->
+                    <div class="sidebar-section">
+                        <h4><i class="fas fa-globe"></i> Linguagens</h4>
+                        <div class="language-grid">
+                            <button class="lang-btn active" data-lang="html">
+                                <i class="fab fa-html5"></i>
+                                <span>HTML</span>
+                            </button>
+                            <button class="lang-btn" data-lang="css">
+                                <i class="fab fa-css3-alt"></i>
+                                <span>CSS</span>
+                            </button>
+                            <button class="lang-btn" data-lang="javascript">
+                                <i class="fab fa-js"></i>
+                                <span>JavaScript</span>
+                            </button>
+                            <button class="lang-btn" data-lang="python">
+                                <i class="fab fa-python"></i>
+                                <span>Python</span>
+                            </button>
+                            <button class="lang-btn" data-lang="lua">
+                                <i class="fas fa-code"></i>
+                                <span>Lua</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Projetos -->
+                    <div class="sidebar-section">
+                        <h4><i class="fas fa-folder"></i> Meus Projetos</h4>
+                        <div class="projects-list">
+                            <div class="project-item active">
+                                <i class="fas fa-file-code"></i>
+                                <span>script.js</span>
+                            </div>
+                            <div class="project-item">
+                                <i class="fas fa-file-code"></i>
+                                <span>app.py</span>
+                            </div>
+                            <div class="project-item">
+                                <i class="fas fa-file-code"></i>
+                                <span>index.html</span>
+                            </div>
+                            <button class="new-project">
+                                <i class="fas fa-plus"></i>
+                                <span>Novo Projeto</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Ferramentas -->
+                    <div class="sidebar-section">
+                        <h4><i class="fas fa-tools"></i> Ferramentas</h4>
+                        <div class="tools-grid">
+                            <button class="tool-btn" id="format-btn">
+                                <i class="fas fa-indent"></i>
+                                <span>Formatar</span>
+                            </button>
+                            <button class="tool-btn" id="debug-btn">
+                                <i class="fas fa-bug"></i>
+                                <span>Debug</span>
+                            </button>
+                            <button class="tool-btn" id="export-btn">
+                                <i class="fas fa-download"></i>
+                                <span>Exportar</span>
+                            </button>
+                            <button class="tool-btn" id="share-btn">
+                                <i class="fas fa-share"></i>
+                                <span>Compartilhar</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Configurações -->
+                    <div class="sidebar-section">
+                        <h4><i class="fas fa-cog"></i> Configurações</h4>
+                        <div class="settings-list">
+                            <div class="setting-item">
+                                <span>Tema</span>
+                                <select id="theme-select">
+                                    <option value="dark">Escuro</option>
+                                    <option value="light">Claro</option>
+                                    <option value="matrix">Matrix</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <span>Tamanho da fonte</span>
+                                <select id="font-size">
+                                    <option value="14">14px</option>
+                                    <option value="16" selected>16px</option>
+                                    <option value="18">18px</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Créditos Sidebar -->
+                    <div class="sidebar-footer">
+                        <div class="dev-info">
+                            <i class="fas fa-user-astronaut"></i>
+                            <div>
+                                <p class="dev-name">MalkDev0</p>
+                                <p class="dev-alias">Jmfxp22</p>
+                            </div>
+                        </div>
+                        <button class="feedback-btn" id="feedback-btn">
+                            <i class="fas fa-comment-dots"></i>
+                            <span>Feedback</span>
+                        </button>
+                    </div>
+                </div>
+            </aside>
 
             <!-- Editor Area -->
             <div class="editor-area">
-                <div class="editor-container">
-                    <div class="editor-tabs">
-                        <button class="editor-tab active" data-tab="code">
-                            <i class="fas fa-code"></i> Código
-                        </button>
-                        <button class="editor-tab" data-tab="output">
-                            <i class="fas fa-terminal"></i> Output
-                        </button>
-                        <button class="editor-tab" data-tab="preview">
-                            <i class="fas fa-eye"></i> Preview
-                        </button>
-                    </div>
-
-                    <div class="editor-content">
-                        <!-- Code Editor -->
-                        <div class="code-editor-container active" id="code-tab">
-                            <textarea id="code-input" class="code-input" spellcheck="false" placeholder="Digite seu código aqui..."></textarea>
-                        </div>
-
-                        <!-- Console Output -->
-                        <div class="output-container" id="output-tab">
-                            <div class="output-header">
-                                <h4><i class="fas fa-terminal"></i> Console Output</h4>
-                                <button class="clear-output" id="clear-output">
-                                    <i class="fas fa-trash"></i> Limpar
+                <!-- Editor Tabs -->
+                <div class="editor-tabs">
+                    <button class="editor-tab active" data-tab="editor">
+                        <i class="fas fa-edit"></i>
+                        <span>Editor</span>
+                    </button>
+                    <button class="editor-tab" data-tab="console">
+                        <i class="fas fa-terminal"></i>
+                        <span>Console</span>
+                    </button>
+                    <button class="editor-tab" data-tab="preview">
+                        <i class="fas fa-eye"></i>
+                        <span>Preview</span>
+                    </button>
+                    <button class="editor-tab" data-tab="ai">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Assistant</span>
+                    </button>
+                </div>
+                
+                <!-- Editor Content -->
+                <div class="editor-content">
+                    <!-- Code Editor -->
+                    <div class="tab-pane active" id="editor-pane">
+                        <div class="editor-header">
+                            <div class="file-info">
+                                <i class="fas fa-file-code"></i>
+                                <span id="current-file">script.js</span>
+                                <span class="file-status" id="file-status">
+                                    <i class="fas fa-circle"></i>
+                                    Salvo
+                                </span>
+                            </div>
+                            <div class="editor-actions">
+                                <button class="icon-btn" id="copy-code" title="Copiar código">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="icon-btn" id="save-local" title="Salvar local">
+                                    <i class="fas fa-save"></i>
                                 </button>
                             </div>
-                            <div class="output-content" id="output-content">
-                                <div class="output-line info">
-                                    <span class="prompt">$</span> Bem-vindo ao CodeNexus Console!
-                                </div>
-                                <div class="output-line info">
-                                    <span class="prompt">$</span> Digite seu código e clique em Executar
-                                </div>
+                        </div>
+                        
+                        <div class="code-wrapper">
+                            <div class="line-numbers" id="line-numbers">
+                                <span>1</span>
+                            </div>
+                            <textarea class="code-editor" id="code-editor" spellcheck="false" placeholder="// Digite seu código aqui...
+// Pressione Ctrl+Enter para executar
+// Use TAB para indentar
+
+console.log('🚀 Bem-vindo ao MalkLabs!');"></textarea>
+                        </div>
+                        
+                        <div class="editor-footer">
+                            <div class="editor-stats">
+                                <span class="stat">
+                                    <i class="fas fa-code"></i>
+                                    <span id="line-count">1</span> linhas
+                                </span>
+                                <span class="stat">
+                                    <i class="fas fa-keyboard"></i>
+                                    <span id="char-count">0</span> caracteres
+                                </span>
+                                <span class="stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span id="cursor-position">Ln 1, Col 1</span>
+                                </span>
+                            </div>
+                            <div class="editor-mode">
+                                <span class="mode-indicator" id="mode-indicator">
+                                    <i class="fas fa-keyboard"></i>
+                                    Modo Normal
+                                </span>
                             </div>
                         </div>
-
-                        <!-- Preview -->
-                        <div class="preview-container" id="preview-tab">
+                    </div>
+                    
+                    <!-- Console Output -->
+                    <div class="tab-pane" id="console-pane">
+                        <div class="console-header">
+                            <h3><i class="fas fa-terminal"></i> Console Output</h3>
+                            <div class="console-controls">
+                                <button class="btn-small" id="clear-console">
+                                    <i class="fas fa-trash"></i>
+                                    Limpar
+                                </button>
+                                <button class="btn-small" id="export-console">
+                                    <i class="fas fa-download"></i>
+                                    Exportar
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="console-output" id="console-output">
+                            <div class="console-line info">
+                                <span class="timestamp">[10:30:45]</span>
+                                <span class="prompt">$</span>
+                                <span>Sistema MalkLabs inicializado</span>
+                            </div>
+                            <div class="console-line info">
+                                <span class="timestamp">[10:30:46]</span>
+                                <span class="prompt">$</span>
+                                <span>Digite seu código e pressione Executar</span>
+                            </div>
+                        </div>
+                        
+                        <div class="console-input">
+                            <span class="prompt">></span>
+                            <input type="text" id="console-command" placeholder="Digite um comando do sistema...">
+                            <button class="send-btn" id="send-command">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Preview -->
+                    <div class="tab-pane" id="preview-pane">
+                        <div class="preview-header">
+                            <h3><i class="fas fa-eye"></i> Visualização</h3>
+                            <div class="preview-controls">
+                                <button class="btn-small" id="refresh-preview">
+                                    <i class="fas fa-sync-alt"></i>
+                                    Atualizar
+                                </button>
+                                <button class="btn-small" id="fullscreen-preview">
+                                    <i class="fas fa-expand"></i>
+                                    Tela Cheia
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-container">
                             <iframe id="preview-frame" class="preview-frame"></iframe>
                         </div>
                     </div>
-
-                    <div class="editor-footer">
-                        <div class="editor-info">
-                            <span class="info-item">
-                                <i class="fas fa-code"></i>
-                                <span id="line-count">1</span> linhas
-                            </span>
-                            <span class="info-item">
-                                <i class="fas fa-keyboard"></i>
-                                <span id="char-count">0</span> caracteres
-                            </span>
-                            <span class="info-item">
-                                <i class="fas fa-language"></i>
-                                <span id="current-lang-name">Python</span>
-                            </span>
-                        </div>
-                        <div class="editor-actions">
-                            <button class="action-btn" id="copy-btn" title="Copiar código">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                            <button class="action-btn" id="download-btn" title="Download">
-                                <i class="fas fa-download"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Help Panel -->
-                <div class="help-panel">
-                    <div class="help-header">
-                        <h3><i class="fas fa-lightbulb"></i> Dicas Rápidas</h3>
-                        <button class="close-help" id="close-help">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
                     
-                    <div class="help-content">
-                        <div class="tip">
-                            <h4><i class="fas fa-play"></i> Executar Código</h4>
-                            <p>Pressione Ctrl+Enter para executar rapidamente</p>
+                    <!-- AI Assistant -->
+                    <div class="tab-pane" id="ai-pane">
+                        <div class="ai-header">
+                            <div class="ai-title">
+                                <div class="ai-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div>
+                                    <h3>Nexus Assistant</h3>
+                                    <p>IA de suporte ao desenvolvimento</p>
+                                </div>
+                            </div>
+                            <div class="ai-status">
+                                <span class="status-online">
+                                    <i class="fas fa-circle"></i>
+                                    Online
+                                </span>
+                            </div>
                         </div>
-                        <div class="tip">
-                            <h4><i class="fas fa-save"></i> Salvar</h4>
-                            <p>Seu código é salvo automaticamente</p>
+                        
+                        <div class="ai-chat" id="ai-chat">
+                            <div class="ai-message">
+                                <div class="message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <strong>Nexus Assistant</strong>
+                                        <span class="message-time">Agora</span>
+                                    </div>
+                                    <p>👋 Olá! Eu sou o Nexus Assistant, seu parceiro de programação.</p>
+                                    <p>Posso ajudar você com:</p>
+                                    <ul>
+                                        <li>🔍 Análise de código</li>
+                                        <li>🚀 Otimização de performance</li>
+                                        <li>🐛 Debug de erros</li>
+                                        <li>💡 Sugestões de implementação</li>
+                                    </ul>
+                                    <p>Como posso ajudar hoje?</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="tip">
-                            <h4><i class="fas fa-bug"></i> Debug</h4>
-                            <p>Erros aparecem automaticamente no console</p>
+                        
+                        <div class="ai-input">
+                            <div class="quick-actions">
+                                <button class="quick-action" data-action="explain">
+                                    <i class="fas fa-lightbulb"></i>
+                                    Explicar código
+                                </button>
+                                <button class="quick-action" data-action="optimize">
+                                    <i class="fas fa-bolt"></i>
+                                    Otimizar
+                                </button>
+                                <button class="quick-action" data-action="debug">
+                                    <i class="fas fa-bug"></i>
+                                    Debug
+                                </button>
+                            </div>
+                            
+                            <div class="input-wrapper">
+                                <input type="text" id="ai-input" placeholder="Pergunte sobre seu código...">
+                                <button class="send-btn" id="send-ai">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="tip">
-                            <h4><i class="fas fa-share"></i> Compartilhar</h4>
-                            <p>Copie o link para compartilhar seu código</p>
-                        </div>
-                    </div>
-                    
-                    <div class="quick-examples">
-                        <h4><i class="fas fa-code"></i> Exemplos Rápidos</h4>
-                        <button class="example-btn" data-example="hello">
-                            Olá Mundo
-                        </button>
-                        <button class="example-btn" data-example="calc">
-                            Calculadora
-                        </button>
-                        <button class="example-btn" data-example="loop">
-                            Loop Básico
-                        </button>
                     </div>
                 </div>
             </div>
         </main>
+
+        <!-- Mobile Bottom Bar -->
+        <nav class="mobile-bar">
+            <button class="mobile-tab active" data-tab="editor">
+                <i class="fas fa-code"></i>
+                <span>Editor</span>
+            </button>
+            <button class="mobile-tab" data-tab="console">
+                <i class="fas fa-terminal"></i>
+                <span>Console</span>
+            </button>
+            <button class="mobile-tab" data-tab="preview">
+                <i class="fas fa-eye"></i>
+                <span>Preview</span>
+            </button>
+            <button class="mobile-tab" data-tab="ai">
+                <i class="fas fa-robot"></i>
+                <span>AI</span>
+            </button>
+        </nav>
     </div>
 
-    <!-- Contact Modal -->
-    <div class="modal" id="contact-modal">
+    <!-- Feedback Modal -->
+    <div class="modal" id="feedback-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2><i class="fas fa-headset"></i> Contato & Suporte</h2>
+                <h2><i class="fas fa-comment-medical"></i> Enviar Feedback</h2>
                 <button class="close-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon discord">
-                            <i class="fab fa-discord"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h3>Discord</h3>
-                            <p>Entre na nossa comunidade</p>
-                            <code id="discord-tag">codenexus</code>
-                            <button class="copy-contact" data-copy="codenexus">
-                                <i class="fas fa-copy"></i> Copiar
-                            </button>
-                        </div>
+                <div class="feedback-intro">
+                    <p>Seu feedback é importante para melhorar o MalkLabs! Mensagens serão enviadas para nosso Discord.</p>
+                </div>
+                
+                <div class="feedback-form">
+                    <div class="form-group">
+                        <label for="feedback-type">Tipo de Feedback</label>
+                        <select id="feedback-type">
+                            <option value="suggestion">💡 Sugestão</option>
+                            <option value="bug">🐛 Reportar Bug</option>
+                            <option value="feature">✨ Pedir Feature</option>
+                            <option value="compliment">🌟 Elogio</option>
+                            <option value="other">📝 Outro</option>
+                        </select>
                     </div>
                     
-                    <div class="contact-item">
-                        <div class="contact-icon email">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h3>Email</h3>
-                            <p>Suporte direto</p>
-                            <code>suporte@codenexus.dev</code>
-                            <button class="copy-contact" data-copy="suporte@codenexus.dev">
-                                <i class="fas fa-copy"></i> Copiar
-                            </button>
-                        </div>
+                    <div class="form-group">
+                        <label for="feedback-message">Mensagem</label>
+                        <textarea id="feedback-message" placeholder="Descreva seu feedback em detalhes..." rows="5"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="feedback-email">Email (opcional)</label>
+                        <input type="email" id="feedback-email" placeholder="seu@email.com">
+                        <small>Usado apenas para respondermos seu feedback</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="include-code" checked>
+                            Incluir código atual no feedback
+                        </label>
                     </div>
                 </div>
                 
-                <div class="feedback-section">
-                    <h3><i class="fas fa-comment"></i> Feedback</h3>
-                    <textarea id="feedback-text" placeholder="O que você achou do CodeNexus?"></textarea>
-                    <button class="submit-feedback" id="submit-feedback">
-                        <i class="fas fa-paper-plane"></i> Enviar Feedback
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-feedback">
+                        Cancelar
                     </button>
+                    <button class="btn-primary" id="submit-feedback">
+                        <i class="fas fa-paper-plane"></i>
+                        Enviar para Discord
+                    </button>
+                </div>
+                
+                <div class="discord-info">
+                    <i class="fab fa-discord"></i>
+                    <p>Mensagem será enviada via Webhook para nosso servidor Discord</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast Notifications -->
+    <!-- Toast Container -->
     <div id="toast-container"></div>
 
     <!-- Scripts -->
+    <script src="discord.js"></script>
     <script src="app.js"></script>
+    
+    <!-- Service Worker (PWA) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+    </script>
 </body>
 </html>
