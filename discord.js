@@ -1,7 +1,7 @@
 // discord.js - Integração com Webhook do Discord
 
 const DISCORD_CONFIG = {
-    WEBHOOK_URL: 'https://discord.com/api/webhooks/SEU_WEBHOOK_AQUI', // SUBSTITUA COM SEU WEBHOOK
+    WEBHOOK_URL: 'https://discord.com/api/webhooks/1470484217342328958/y5_RSao6wHzGYEfRF2OHqGU6KbPGqVrP3ExDLsEO7m6fqAji81V5TnZHK0FtHWZI_Gx4', // SUBSTITUA COM SEU WEBHOOK
     COLORS: {
         INFO: 0x6366f1,    // Roxo
         SUCCESS: 0x10b981, // Verde
