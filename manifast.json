@@ -1,0 +1,20 @@
+{
+  "name": "MalkLabs",
+  "short_name": "MalkLabs",
+  "description": "Laboratório de código multi-linguagem desenvolvido por MalkDev0 - Jmfxp22",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["development", "education", "productivity"],
+  "lang": "pt-BR",
+  "dir": "ltr"
+}
