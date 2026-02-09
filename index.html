@@ -3,486 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeNexus | Laboratório Multi-Linguagem</title>
+    <title>CodeNexus | Laboratório de Programação</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Monaco Editor (VS Code no navegador) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/editor/editor.main.min.css">
-    <!-- Pyodide -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
-    <!-- Fengari (Lua) -->
-    <script src="https://fengari.io/static/fengari-web.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Loading -->
+<body class="dark-theme">
+    <!-- Loading Screen SIMPLIFICADA -->
     <div id="loading">
         <div class="loader">
-            <div class="nexus-logo">
-                <span class="bracket">{</span>
-                <span class="nexus">NEXUS</span>
-                <span class="bracket">}</span>
-            </div>
-            <p>Carregando ambientes de execução...</p>
-            <div class="progress">
-                <div class="progress-bar"></div>
-            </div>
-            <div class="runtime-status">
-                <span id="py-status">○ Python</span>
-                <span id="lua-status">○ Lua</span>
-                <span id="js-status">○ JavaScript</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sidebar -->
-    <nav class="sidebar">
-        <div class="logo">
-            <div class="logo-icon">
+            <div class="logo">
                 <span class="bracket">{</span>
                 <span class="text">NEXUS</span>
                 <span class="bracket">}</span>
             </div>
-            <h1>Code<span class="nexus">Nexus</span></h1>
-        </div>
-
-        <div class="menu-section">
-            <h3><i class="fas fa-globe"></i> LINGUAGENS</h3>
-            <div class="lang-buttons">
-                <button class="lang-btn active" data-lang="html">
-                    <i class="fab fa-html5"></i> HTML
-                </button>
-                <button class="lang-btn" data-lang="css">
-                    <i class="fab fa-css3-alt"></i> CSS
-                </button>
-                <button class="lang-btn" data-lang="javascript">
-                    <i class="fab fa-js"></i> JavaScript
-                </button>
-                <button class="lang-btn" data-lang="python">
-                    <i class="fab fa-python"></i> Python
-                </button>
-                <button class="lang-btn" data-lang="lua">
-                    <i class="fas fa-code"></i> Lua
-                </button>
+            <p>Inicializando laboratório...</p>
+            <div class="progress">
+                <div class="progress-bar"></div>
             </div>
+            <div class="loading-text" id="loading-text">Carregando...</div>
         </div>
+    </div>
 
-        <div class="menu-section">
-            <h3><i class="fas fa-cogs"></i> FERRAMENTAS</h3>
-            <button class="tool-btn" id="run-code">
-                <i class="fas fa-play"></i> Executar
-            </button>
-            <button class="tool-btn" id="format-code">
-                <i class="fas fa-indent"></i> Formatar
-            </button>
-            <button class="tool-btn" id="clear-code">
-                <i class="fas fa-trash"></i> Limpar
-            </button>
-            <button class="tool-btn" id="save-code">
-                <i class="fas fa-save"></i> Salvar
-            </button>
-        </div>
-
-        <div class="menu-section">
-            <h3><i class="fas fa-magic"></i> INTELIGÊNCIA</h3>
-            <button class="ai-btn" id="explain-code">
-                <i class="fas fa-lightbulb"></i> Explicar
-            </button>
-            <button class="ai-btn" id="optimize-code">
-                <i class="fas fa-bolt"></i> Otimizar
-            </button>
-            <button class="ai-btn" id="debug-code">
-                <i class="fas fa-bug"></i> Debug
-            </button>
-        </div>
-
-        <div class="menu-section">
-            <h3><i class="fas fa-eye"></i> VISUALIZAÇÃO</h3>
-            <div class="view-toggles">
-                <button class="view-btn active" data-view="editor">
-                    <i class="fas fa-edit"></i> Editor
-                </button>
-                <button class="view-btn" data-view="preview">
-                    <i class="fas fa-desktop"></i> Preview
-                </button>
-                <button class="view-btn" data-view="split">
-                    <i class="fas fa-columns"></i> Split
-                </button>
+    <!-- Interface Principal (inicialmente escondida) -->
+    <div id="main-app" style="display: none;">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo-section">
+                <h1><i class="fas fa-code"></i> CodeNexus</h1>
+                <p class="subtitle">Laboratório Multi-Linguagem</p>
             </div>
-        </div>
 
-        <div class="theme-section">
-            <h3><i class="fas fa-palette"></i> TEMA</h3>
-            <div class="theme-buttons">
-                <button class="theme-btn active" data-theme="dark">
-                    <i class="fas fa-moon"></i> Escuro
-                </button>
-                <button class="theme-btn" data-theme="light">
-                    <i class="fas fa-sun"></i> Claro
-                </button>
-                <button class="theme-btn" data-theme="matrix">
-                    <i class="fas fa-terminal"></i> Matrix
-                </button>
-            </div>
-        </div>
-
-        <div class="support-section">
-            <button class="support-btn" id="contact-btn">
-                <i class="fas fa-headset"></i> Suporte
-            </button>
-            <button class="support-btn" id="docs-btn">
-                <i class="fas fa-book"></i> Docs
-            </button>
-            <button class="support-btn" id="github-btn">
-                <i class="fab fa-github"></i> GitHub
-            </button>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Top Bar -->
-        <header class="top-bar">
-            <div class="file-info">
-                <div class="file-name">
-                    <i class="fas fa-file-code"></i>
-                    <span id="current-file">script.</span>
-                    <span id="current-ext">py</span>
-                </div>
-                <div class="lang-indicator" id="lang-indicator">
-                    <i class="fab fa-python"></i> Python
+            <div class="menu-section">
+                <h3><i class="fas fa-globe"></i> LINGUAGENS</h3>
+                <div class="lang-buttons">
+                    <button class="lang-btn active" data-lang="html">
+                        <i class="fab fa-html5"></i> HTML
+                    </button>
+                    <button class="lang-btn" data-lang="css">
+                        <i class="fab fa-css3-alt"></i> CSS
+                    </button>
+                    <button class="lang-btn" data-lang="js">
+                        <i class="fab fa-js"></i> JavaScript
+                    </button>
+                    <button class="lang-btn" data-lang="python">
+                        <i class="fab fa-python"></i> Python
+                    </button>
+                    <button class="lang-btn" data-lang="lua">
+                        <i class="fas fa-code"></i> Lua
+                    </button>
                 </div>
             </div>
 
-            <div class="controls">
-                <button class="control-btn" id="console-toggle">
-                    <i class="fas fa-terminal"></i> Console
+            <div class="menu-section">
+                <h3><i class="fas fa-cogs"></i> FERRAMENTAS</h3>
+                <button class="tool-btn" id="run-btn">
+                    <i class="fas fa-play"></i> Executar
                 </button>
-                <button class="control-btn" id="errors-toggle">
-                    <i class="fas fa-exclamation-triangle"></i> Erros
+                <button class="tool-btn" id="clear-btn">
+                    <i class="fas fa-trash"></i> Limpar
                 </button>
-                <button class="control-btn" id="settings-btn">
-                    <i class="fas fa-cog"></i> Config
+                <button class="tool-btn" id="save-btn">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+                <button class="tool-btn" id="format-btn">
+                    <i class="fas fa-indent"></i> Formatar
                 </button>
             </div>
-        </header>
 
-        <!-- Editor Area -->
-        <div class="editor-area">
-            <!-- Editor Container -->
-            <div class="editor-container">
-                <div class="editor-header">
-                    <div class="tabs">
-                        <button class="tab active" data-tab="code">
+            <div class="menu-section">
+                <h3><i class="fas fa-palette"></i> TEMA</h3>
+                <div class="theme-buttons">
+                    <button class="theme-btn active" data-theme="dark">
+                        <i class="fas fa-moon"></i> Escuro
+                    </button>
+                    <button class="theme-btn" data-theme="light">
+                        <i class="fas fa-sun"></i> Claro
+                    </button>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <h3><i class="fas fa-headset"></i> SUPORTE</h3>
+                <button class="support-btn" id="contact-btn">
+                    <i class="fab fa-discord"></i> Discord
+                </button>
+                <button class="support-btn" id="help-btn">
+                    <i class="fas fa-question-circle"></i> Ajuda
+                </button>
+            </div>
+
+            <div class="footer-section">
+                <p class="version">v1.0.0</p>
+                <p class="status" id="status-indicator">
+                    <i class="fas fa-circle online"></i> Online
+                </p>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="file-info">
+                    <div class="file-name">
+                        <i class="fas fa-file-code"></i>
+                        <span>script.</span>
+                        <span id="current-ext">py</span>
+                    </div>
+                    <div class="lang-display" id="lang-display">
+                        <i class="fab fa-python"></i> Python
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="control-btn" id="console-btn">
+                        <i class="fas fa-terminal"></i> Console
+                    </button>
+                    <button class="control-btn" id="fullscreen-btn">
+                        <i class="fas fa-expand"></i> Tela Cheia
+                    </button>
+                </div>
+            </div>
+
+            <!-- Editor Area -->
+            <div class="editor-area">
+                <div class="editor-container">
+                    <div class="editor-tabs">
+                        <button class="editor-tab active" data-tab="code">
                             <i class="fas fa-code"></i> Código
                         </button>
-                        <button class="tab" data-tab="output">
+                        <button class="editor-tab" data-tab="output">
                             <i class="fas fa-terminal"></i> Output
                         </button>
-                        <button class="tab" data-tab="preview">
+                        <button class="editor-tab" data-tab="preview">
                             <i class="fas fa-eye"></i> Preview
                         </button>
                     </div>
-                    <div class="editor-actions">
-                        <select id="font-size">
-                            <option value="12">12px</option>
-                            <option value="14" selected>14px</option>
-                            <option value="16">16px</option>
-                            <option value="18">18px</option>
-                        </select>
-                        <button class="action-btn" id="fullscreen">
-                            <i class="fas fa-expand"></i>
+
+                    <div class="editor-content">
+                        <!-- Code Editor -->
+                        <div class="code-editor-container active" id="code-tab">
+                            <textarea id="code-input" class="code-input" spellcheck="false" placeholder="Digite seu código aqui..."></textarea>
+                        </div>
+
+                        <!-- Console Output -->
+                        <div class="output-container" id="output-tab">
+                            <div class="output-header">
+                                <h4><i class="fas fa-terminal"></i> Console Output</h4>
+                                <button class="clear-output" id="clear-output">
+                                    <i class="fas fa-trash"></i> Limpar
+                                </button>
+                            </div>
+                            <div class="output-content" id="output-content">
+                                <div class="output-line info">
+                                    <span class="prompt">$</span> Bem-vindo ao CodeNexus Console!
+                                </div>
+                                <div class="output-line info">
+                                    <span class="prompt">$</span> Digite seu código e clique em Executar
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview -->
+                        <div class="preview-container" id="preview-tab">
+                            <iframe id="preview-frame" class="preview-frame"></iframe>
+                        </div>
+                    </div>
+
+                    <div class="editor-footer">
+                        <div class="editor-info">
+                            <span class="info-item">
+                                <i class="fas fa-code"></i>
+                                <span id="line-count">1</span> linhas
+                            </span>
+                            <span class="info-item">
+                                <i class="fas fa-keyboard"></i>
+                                <span id="char-count">0</span> caracteres
+                            </span>
+                            <span class="info-item">
+                                <i class="fas fa-language"></i>
+                                <span id="current-lang-name">Python</span>
+                            </span>
+                        </div>
+                        <div class="editor-actions">
+                            <button class="action-btn" id="copy-btn" title="Copiar código">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="action-btn" id="download-btn" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Help Panel -->
+                <div class="help-panel">
+                    <div class="help-header">
+                        <h3><i class="fas fa-lightbulb"></i> Dicas Rápidas</h3>
+                        <button class="close-help" id="close-help">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="help-content">
+                        <div class="tip">
+                            <h4><i class="fas fa-play"></i> Executar Código</h4>
+                            <p>Pressione Ctrl+Enter para executar rapidamente</p>
+                        </div>
+                        <div class="tip">
+                            <h4><i class="fas fa-save"></i> Salvar</h4>
+                            <p>Seu código é salvo automaticamente</p>
+                        </div>
+                        <div class="tip">
+                            <h4><i class="fas fa-bug"></i> Debug</h4>
+                            <p>Erros aparecem automaticamente no console</p>
+                        </div>
+                        <div class="tip">
+                            <h4><i class="fas fa-share"></i> Compartilhar</h4>
+                            <p>Copie o link para compartilhar seu código</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-examples">
+                        <h4><i class="fas fa-code"></i> Exemplos Rápidos</h4>
+                        <button class="example-btn" data-example="hello">
+                            Olá Mundo
+                        </button>
+                        <button class="example-btn" data-example="calc">
+                            Calculadora
+                        </button>
+                        <button class="example-btn" data-example="loop">
+                            Loop Básico
                         </button>
                     </div>
                 </div>
-
-                <div class="editor-body">
-                    <!-- Monaco Editor -->
-                    <div id="monaco-container" class="monaco-container"></div>
-                    
-                    <!-- Output Console -->
-                    <div id="output-console" class="output-console" style="display: none;">
-                        <div class="console-header">
-                            <div class="console-title">
-                                <i class="fas fa-terminal"></i> Console Output
-                            </div>
-                            <div class="console-controls">
-                                <button class="console-btn" id="clear-console">
-                                    <i class="fas fa-trash"></i> Limpar
-                                </button>
-                                <button class="console-btn" id="copy-output">
-                                    <i class="fas fa-copy"></i> Copiar
-                                </button>
-                            </div>
-                        </div>
-                        <div class="console-content" id="console-content">
-                            <div class="console-line info">
-                                <span class="prompt">$</span> CodeNexus Console pronto
-                            </div>
-                            <div class="console-line info">
-                                <span class="prompt">$</span> Digite seu código e pressione Executar
-                            </div>
-                        </div>
-                        <div class="console-input">
-                            <span class="prompt">></span>
-                            <input type="text" id="console-input" placeholder="Digite comandos do console...">
-                        </div>
-                    </div>
-
-                    <!-- Preview Pane -->
-                    <div id="preview-pane" class="preview-pane" style="display: none;">
-                        <iframe id="preview-frame" class="preview-frame"></iframe>
-                    </div>
-                </div>
-
-                <div class="editor-footer">
-                    <div class="status-info">
-                        <span class="status-item">
-                            <i class="fas fa-code-branch"></i>
-                            Linha: <span id="current-line">1</span>
-                        </span>
-                        <span class="status-item">
-                            <i class="fas fa-columns"></i>
-                            Coluna: <span id="current-col">1</span>
-                        </span>
-                        <span class="status-item">
-                            <i class="fas fa-keyboard"></i>
-                            Modo: <span id="edit-mode">INS</span>
-                        </span>
-                    </div>
-                    <div class="runtime-info">
-                        <span class="runtime-item" id="python-status">
-                            <i class="fas fa-circle"></i> Python
-                        </span>
-                        <span class="runtime-item" id="lua-status">
-                            <i class="fas fa-circle"></i> Lua
-                        </span>
-                    </div>
-                </div>
             </div>
+        </main>
+    </div>
 
-            <!-- AI Assistant -->
-            <div class="assistant-panel">
-                <div class="assistant-header">
-                    <h3><i class="fas fa-robot"></i> Nexus Assistant</h3>
-                    <button class="close-btn" id="close-assistant">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                
-                <div class="assistant-chat" id="assistant-chat">
-                    <div class="chat-message ai">
-                        <div class="avatar">AI</div>
-                        <div class="message-content">
-                            <strong>Olá! Eu sou o Nexus Assistant.</strong><br>
-                            Posso ajudar você com:
-                            • Análise de código
-                            • Sugestões de melhoria
-                            • Explicação de conceitos
-                            • Correção de bugs
-                            <br><br>
-                            Como posso ajudar hoje?
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="assistant-input">
-                    <input type="text" id="ai-input" placeholder="Pergunte sobre seu código...">
-                    <button id="send-ai">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-                
-                <div class="quick-actions">
-                    <button class="quick-action" data-action="syntax">
-                        <i class="fas fa-code"></i> Sintaxe
-                    </button>
-                    <button class="quick-action" data-action="logic">
-                        <i class="fas fa-brain"></i> Lógica
-                    </button>
-                    <button class="quick-action" data-action="performance">
-                        <i class="fas fa-tachometer-alt"></i> Performance
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Error Panel -->
-        <div class="error-panel" id="error-panel">
-            <div class="error-header">
-                <h3><i class="fas fa-exclamation-circle"></i> Problemas</h3>
-                <span class="error-count">0</span>
-                <button class="error-btn" id="refresh-errors">
-                    <i class="fas fa-sync"></i>
-                </button>
-            </div>
-            <div class="error-list" id="error-list">
-                <div class="no-errors">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Nenhum problema encontrado</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Modals -->
+    <!-- Contact Modal -->
     <div class="modal" id="contact-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2><i class="fas fa-headset"></i> Suporte & Contato</h2>
+                <h2><i class="fas fa-headset"></i> Contato & Suporte</h2>
                 <button class="close-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="contact-grid">
-                    <div class="contact-card">
+                <div class="contact-info">
+                    <div class="contact-item">
                         <div class="contact-icon discord">
                             <i class="fab fa-discord"></i>
                         </div>
-                        <h3>Discord</h3>
-                        <div class="contact-info">
-                            <code>discord.gg/codenexus</code>
-                            <button class="copy-btn" data-copy="discord.gg/codenexus">
-                                <i class="fas fa-copy"></i>
+                        <div class="contact-details">
+                            <h3>Discord</h3>
+                            <p>Entre na nossa comunidade</p>
+                            <code id="discord-tag">codenexus</code>
+                            <button class="copy-contact" data-copy="codenexus">
+                                <i class="fas fa-copy"></i> Copiar
                             </button>
                         </div>
                     </div>
                     
-                    <div class="contact-card">
+                    <div class="contact-item">
                         <div class="contact-icon email">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <h3>Email</h3>
-                        <div class="contact-info">
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <p>Suporte direto</p>
                             <code>suporte@codenexus.dev</code>
-                            <button class="copy-btn" data-copy="suporte@codenexus.dev">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-card">
-                        <div class="contact-icon whatsapp">
-                            <i class="fab fa-whatsapp"></i>
-                        </div>
-                        <h3>WhatsApp</h3>
-                        <div class="contact-info">
-                            <code>+55 (11) 99999-9999</code>
-                            <button class="copy-btn" data-copy="+5511999999999">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-card">
-                        <div class="contact-icon github">
-                            <i class="fab fa-github"></i>
-                        </div>
-                        <h3>GitHub</h3>
-                        <div class="contact-info">
-                            <code>github.com/CodeNexus</code>
-                            <button class="copy-btn" data-copy="github.com/CodeNexus">
-                                <i class="fas fa-copy"></i>
+                            <button class="copy-contact" data-copy="suporte@codenexus.dev">
+                                <i class="fas fa-copy"></i> Copiar
                             </button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="report-issue">
-                    <h3><i class="fas fa-bug"></i> Reportar Problema</h3>
-                    <textarea id="issue-text" placeholder="Descreva o problema ou sugestão..."></textarea>
-                    <button class="submit-btn" id="submit-issue">
-                        <i class="fas fa-paper-plane"></i> Enviar
+                <div class="feedback-section">
+                    <h3><i class="fas fa-comment"></i> Feedback</h3>
+                    <textarea id="feedback-text" placeholder="O que você achou do CodeNexus?"></textarea>
+                    <button class="submit-feedback" id="submit-feedback">
+                        <i class="fas fa-paper-plane"></i> Enviar Feedback
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Settings Modal -->
-    <div class="modal" id="settings-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-cogs"></i> Configurações</h2>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="settings-group">
-                    <h3><i class="fas fa-code"></i> Editor</h3>
-                    <div class="setting">
-                        <label>Tamanho da fonte</label>
-                        <select id="settings-font-size">
-                            <option value="12">12px</option>
-                            <option value="14" selected>14px</option>
-                            <option value="16">16px</option>
-                            <option value="18">18px</option>
-                        </select>
-                    </div>
-                    <div class="setting">
-                        <label>Tab size</label>
-                        <select id="settings-tab-size">
-                            <option value="2">2 espaços</option>
-                            <option value="4" selected>4 espaços</option>
-                            <option value="8">8 espaços</option>
-                        </select>
-                    </div>
-                    <div class="setting">
-                        <label>
-                            <input type="checkbox" id="auto-save" checked>
-                            Auto-save
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="settings-group">
-                    <h3><i class="fas fa-play-circle"></i> Execução</h3>
-                    <div class="setting">
-                        <label>
-                            <input type="checkbox" id="auto-run" checked>
-                            Auto-executar ao salvar
-                        </label>
-                    </div>
-                    <div class="setting">
-                        <label>
-                            <input type="checkbox" id="show-line-numbers" checked>
-                            Mostrar números de linha
-                        </label>
-                    </div>
-                    <div class="setting">
-                        <label>
-                            <input type="checkbox" id="word-wrap">
-                            Word wrap
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="settings-group">
-                    <h3><i class="fas fa-terminal"></i> Console</h3>
-                    <div class="setting">
-                        <label>Histórico máximo</label>
-                        <select id="console-history">
-                            <option value="50">50 linhas</option>
-                            <option value="100" selected>100 linhas</option>
-                            <option value="200">200 linhas</option>
-                            <option value="500">500 linhas</option>
-                        </select>
-                    </div>
-                    <div class="setting">
-                        <label>
-                            <input type="checkbox" id="clear-on-run" checked>
-                            Limpar console ao executar
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Container -->
+    <!-- Toast Notifications -->
     <div id="toast-container"></div>
 
-    <!-- Monaco Editor Script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/loader.min.js"></script>
-    <!-- App Script -->
+    <!-- Scripts -->
     <script src="app.js"></script>
 </body>
 </html>
