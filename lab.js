@@ -14,56 +14,53 @@ require(['vs/editor/editor.main'], function () {
     minimap:{ enabled:true }
   });
 
-  loadTree();
-  setInterval(autoSave,2000);
+  loadFiles();
+  setInterval(autoSave,1500);
 });
 
 function autoSave(){
   if(currentFile){
-    files[currentFile] = editor.getValue();
-    localStorage.setItem("malk_files", JSON.stringify(files));
+    files[currentFile]=editor.getValue();
+    localStorage.setItem("malk_files",JSON.stringify(files));
     updatePreview();
   }
 }
 
 function createFile(){
-  const name = prompt("Nome do arquivo:");
+  const name=prompt("Nome do arquivo (ex: index.html):");
   if(!name) return;
   files[name]="";
   save();
-  loadTree();
+  loadFiles();
 }
 
-function loadTree(){
-  const tree=document.getElementById("fileTree");
-  tree.innerHTML="";
+function loadFiles(){
+  const list=document.getElementById("fileList");
+  list.innerHTML="";
   Object.keys(files).forEach(name=>{
     const div=document.createElement("div");
     div.textContent=name;
-    div.draggable=true;
-
-    div.ondragstart=(e)=>{
-      e.dataTransfer.setData("text/plain",name);
-    };
-
     div.onclick=()=>openFile(name);
-
-    tree.appendChild(div);
+    list.appendChild(div);
   });
-
-  tree.ondrop=(e)=>{
-    e.preventDefault();
-    const file=e.dataTransfer.getData("text");
-    alert("Arquivo movido (visual apenas)");
-  };
-
-  tree.ondragover=(e)=>e.preventDefault();
 }
 
 function openFile(name){
   currentFile=name;
   editor.setValue(files[name]||"");
+  addTab(name);
   updatePreview();
+}
+
+function addTab(name){
+  if(window.innerWidth<900) return;
+  const tabs=document.getElementById("tabs");
+  if([...tabs.children].some(t=>t.textContent===name)) return;
+  const tab=document.createElement("div");
+  tab.className="tab active";
+  tab.textContent=name;
+  tab.onclick=()=>openFile(name);
+  tabs.appendChild(tab);
 }
 
 function updatePreview(){
@@ -87,22 +84,22 @@ function downloadProject(){
 
 function toggleTheme(){
   document.body.classList.toggle("light");
-  const theme=document.body.classList.contains("light") ? "vs" : "vs-dark";
+  const theme=document.body.classList.contains("light")?"vs":"vs-dark";
   monaco.editor.setTheme(theme);
 }
 
-/* RESIZER */
+/* Resizer */
 const resizer=document.getElementById("resizer");
 const sidebar=document.getElementById("sidebar");
+let resizing=false;
 
-let isResizing=false;
-
-resizer.addEventListener("mousedown",()=>isResizing=true);
-document.addEventListener("mousemove",(e)=>{
-  if(!isResizing) return;
-  sidebar.style.width=e.clientX+"px";
-});
-document.addEventListener("mouseup",()=>isResizing=false);
+resizer.onmousedown=()=>resizing=true;
+document.onmousemove=(e)=>{
+  if(resizing){
+    sidebar.style.width=e.clientX+"px";
+  }
+};
+document.onmouseup=()=>resizing=false;
 
 function save(){
   localStorage.setItem("malk_files",JSON.stringify(files));
