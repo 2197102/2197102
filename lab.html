@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Malklabs IDE</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="style.css">
 
 <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -14,17 +14,20 @@
 <body>
 
 <div class="topbar">
-  <span>Malklabs IDE</span>
-  <button onclick="toggleTheme()">🌗 Tema</button>
-  <button onclick="downloadProject()">⬇ Baixar</button>
+  <div class="logo">Malklabs</div>
+  <div class="actions">
+    <button onclick="toggleTheme()">Tema</button>
+    <button onclick="downloadProject()">Download</button>
+  </div>
 </div>
 
 <div class="app">
 
-  <aside class="sidebar" id="sidebar">
-    <button onclick="createFile()">+ Arquivo</button>
-    <div id="fileTree"></div>
-  </aside>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">Arquivos</div>
+    <button class="new-file" onclick="createFile()">+ Novo Arquivo</button>
+    <div id="fileList"></div>
+  </div>
 
   <div class="resizer" id="resizer"></div>
 
@@ -32,17 +35,19 @@
 
     <div id="tabs"></div>
 
-    <div class="editor-container">
+    <div class="workspace">
 
       <div id="editor"></div>
 
-      <div class="preview-container">
+      <div class="preview-wrapper">
+        <div class="preview-header">Preview</div>
         <iframe id="preview"></iframe>
       </div>
 
     </div>
 
     <div class="terminal">
+      <div class="terminal-header">Terminal</div>
       <div id="terminalOutput"></div>
     </div>
 
@@ -50,6 +55,6 @@
 
 </div>
 
-<script src="js/lab.js"></script>
+<script src="lab.js"></script>
 </body>
 </html>
